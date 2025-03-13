@@ -1,23 +1,15 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import LevelSeccion from '../components/Ui/LevelSeccion';
 import Header from '../components/Layout/Header';
 import Progress from '../components/Ui/Progress';
 import GameModal from '../components/Ui/ModalGame';
 import { useGameData } from '../hooks/useGameData';
 
+
 const HomePage = () => {
 
-  const storedProgress = JSON.parse(localStorage.getItem('levelProgress'));
-  const storedUser = JSON.parse(localStorage.getItem('dataUser'));
-  const data = {
-      id: storedUser.id,
-      email: storedUser.email,
-      score: storedUser.score,
-      levelProgress: storedProgress
-  }
-
   const {
-    
+
     userData,
     selectedLevel,
     
@@ -28,7 +20,7 @@ const HomePage = () => {
     handleLevelSelect,
     handleCloseModal,
     handleLevelComplete
-  } = useGameData(data);
+  } = useGameData();
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">

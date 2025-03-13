@@ -1,7 +1,7 @@
 import axios from "axios";
 import { endpoint } from "../../utils/endpoint";
 
-const RegisterService = async ({idUser, idLevel, status, score }) => {
+const ChangeStatusService = async ({idUser, idLevel, status, score }) => {
     try {
     
    const result = await axios.put(`${endpoint}/changeStatus`, {
@@ -19,4 +19,4 @@ const RegisterService = async ({idUser, idLevel, status, score }) => {
     }
 }
 
-export default RegisterService;
+export default ChangeStatusService;

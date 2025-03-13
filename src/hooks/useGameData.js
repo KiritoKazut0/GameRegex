@@ -1,9 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import ListLevelService from '../service/level/ListLevel';
+import ChangeStatusService from '../service/level/changeStatus';
 
-export const useGameData = (initialData) => {
- 
-  const [userData, setUserData] = useState(initialData);
+export const useGameData = () => {
+  const storedUser = JSON.parse(localStorage.getItem('dataUser'));
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+
+  const [userData, setUserData] = useState({
+    id: storedUser?.id || '',
+    email: storedUser?.email || '',
+    score: 0,
+    levelProgress: []
+  });
+  
   const [selectedLevel, setSelectedLevel] = useState(null);
+  
+  useEffect(() => {
+    async function getData() {
+      try {
+        setIsLoading(true);
+        const storedProgress = await ListLevelService(storedUser.id);
+        setUserData({
+          id: storedUser.id,
+          email: storedUser.email,
+          score: storedProgress.score || 0,
+          levelProgress: storedProgress.levelProgress || []
+        });
+      } catch (err) {
+        console.error("Failed to fetch level data:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    if (storedUser?.id) {
+      getData();
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
   
   const getDifficultyColor = (difficulty) => {
     switch(difficulty) {
@@ -19,6 +57,7 @@ export const useGameData = (initialData) => {
         return 'text-gray-500';
     }
   };
+  
   
   const groupedLevels = userData.levelProgress.reduce((acc, item) => {
     const difficulty = item.level.dificultad;
@@ -67,6 +106,21 @@ export const useGameData = (initialData) => {
       }
       return item;
     });
+
+
+    async function sendNewStatusAndScore() {
+      await ChangeStatusService({
+        idUser: storedUser.id,
+        status: 'Completado',
+        score: pointsToAdd,
+        idLevel: levelId
+      })
+    }
+
+    if (pointsToAdd > 0){
+      sendNewStatusAndScore();
+    }
+
     
     setUserData(prevData => ({
       ...prevData,
@@ -80,18 +134,15 @@ export const useGameData = (initialData) => {
   };
 
   return {
-
     userData,
     selectedLevel,
-    
-
     groupedLevels,
     difficultyOrder,
-    
-
     getDifficultyColor,
     handleLevelSelect,
     handleCloseModal,
-    handleLevelComplete
+    handleLevelComplete,
+    isLoading,
+    error
   };
 };
