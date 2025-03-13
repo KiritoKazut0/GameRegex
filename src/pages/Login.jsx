@@ -105,11 +105,9 @@ const LoginForm = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         
-        {/* Overlay glow effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-transparent pointer-events-none"></div>
       </div>
       
-      {/* Background particles for immersive effect */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {Array.from({ length: 20 }).map((_, index) => (
           <div 

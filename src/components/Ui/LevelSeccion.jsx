@@ -1,4 +1,4 @@
-import { Lock, CheckCircle, ChevronRight, AlertCircle } from 'lucide-react';
+import { Lock, CheckCircle, ChevronRight } from 'lucide-react';
 
 export default function LevelSeccion({difficultyOrder, groupedLevels, getDifficultyColor, levelProgress, onLevelSelect}) {
     return (
@@ -14,43 +14,27 @@ export default function LevelSeccion({difficultyOrder, groupedLevels, getDifficu
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {groupedLevels[difficulty]?.map((item) => {
                                 const isCompleted = item.status === "Completado";
-                                const isPartial = item.status === "Parcial";
                                 const isLocked = item.status === "Pendiente" &&
-                                    !levelProgress.find(l => 
-                                      l.level.nivel === item.level.nivel - 1 && 
-                                      (l.status === "Completado" || l.status === "Parcial")
-                                    ) &&
-                                    item.level.nivel > 3; 
+                                levelProgress.find(l => l.level.nivel === item.level.nivel - 1)?.status !== "Completado" &&
+                                item.level.nivel > 1; 
 
                                 return (
                                     <div
                                         key={item.level._id}
-                                        className={`p-4 rounded-lg border transition-all duration-300 hover:shadow-lg ${
-                                            isCompleted
+                                        className={`p-4 rounded-lg border transition-all duration-300 hover:shadow-lg ${isCompleted
                                                 ? 'bg-gray-800/30 border-green-500/30 cursor-pointer'
-                                                : isPartial
-                                                    ? 'bg-gray-800/30 border-blue-500/30 cursor-pointer'
-                                                    : isLocked
-                                                        ? 'bg-gray-800/10 border-gray-700 opacity-60 cursor-not-allowed'
-                                                        : 'bg-gray-800/50 border-fuchsia-500/30 cursor-pointer hover:border-fuchsia-500/60'
+                                                : isLocked
+                                                    ? 'bg-gray-800/10 border-gray-700 opacity-60 cursor-not-allowed'
+                                                    : 'bg-gray-800/50 border-fuchsia-500/30 cursor-pointer hover:border-fuchsia-500/60'
                                             }`}
                                         onClick={() => !isLocked && onLevelSelect(item.level)}
                                     >
                                         <div className="flex justify-between items-start mb-2">
                                             <div className="flex items-center gap-2">
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                                    isCompleted 
-                                                        ? 'bg-green-500/20' 
-                                                        : isPartial 
-                                                            ? 'bg-blue-500/20' 
-                                                            : isLocked 
-                                                                ? 'bg-gray-700/50' 
-                                                                : 'bg-fuchsia-500/20'
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted ? 'bg-green-500/20' : isLocked ? 'bg-gray-700/50' : 'bg-fuchsia-500/20'
                                                     }`}>
                                                     {isCompleted ? (
                                                         <CheckCircle size={16} className="text-green-500" />
-                                                    ) : isPartial ? (
-                                                        <AlertCircle size={16} className="text-blue-500" />
                                                     ) : isLocked ? (
                                                         <Lock size={16} className="text-gray-500" />
                                                     ) : (
@@ -60,13 +44,7 @@ export default function LevelSeccion({difficultyOrder, groupedLevels, getDifficu
                                                 <h4 className="font-bold">Nivel {item.level.nivel}</h4>
                                             </div>
                                             {!isLocked && (
-                                                <ChevronRight size={20} className={
-                                                    isCompleted 
-                                                        ? 'text-green-500' 
-                                                        : isPartial 
-                                                            ? 'text-blue-500' 
-                                                            : 'text-fuchsia-400'
-                                                } />
+                                                <ChevronRight size={20} className={isCompleted ? 'text-green-500' : 'text-fuchsia-400'} />
                                             )}
                                         </div>
 
@@ -82,13 +60,6 @@ export default function LevelSeccion({difficultyOrder, groupedLevels, getDifficu
                                             <div className="mt-2 text-green-400 text-xs flex items-center gap-1">
                                                 <CheckCircle size={12} />
                                                 <span>Completado</span>
-                                            </div>
-                                        )}
-                                        
-                                        {isPartial && (
-                                            <div className="mt-2 text-blue-400 text-xs flex items-center gap-1">
-                                                <AlertCircle size={12} />
-                                                <span>Parcialmente completado</span>
                                             </div>
                                         )}
                                     </div>
