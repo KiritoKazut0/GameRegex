@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 export const useGameData = (initialData) => {
+ 
   const [userData, setUserData] = useState(initialData);
   const [selectedLevel, setSelectedLevel] = useState(null);
   

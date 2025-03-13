@@ -1,18 +1,26 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import LevelSeccion from '../components/Ui/LevelSeccion';
 import Header from '../components/Layout/Header';
 import Progress from '../components/Ui/Progress';
 import GameModal from '../components/Ui/ModalGame';
-import Data from "../mocks/mocks.json";
-import { useGameData } from '../hooks/useGameData'; // Asegúrate de importar desde la ubicación correcta
+import { useGameData } from '../hooks/useGameData';
 
 const HomePage = () => {
-  const {
 
+  const storedProgress = JSON.parse(localStorage.getItem('levelProgress'));
+  const storedUser = JSON.parse(localStorage.getItem('dataUser'));
+  const data = {
+      id: storedUser.id,
+      email: storedUser.email,
+      score: storedUser.score,
+      levelProgress: storedProgress
+  }
+
+  const {
+    
     userData,
     selectedLevel,
     
-
     groupedLevels,
     difficultyOrder,
     
@@ -20,7 +28,7 @@ const HomePage = () => {
     handleLevelSelect,
     handleCloseModal,
     handleLevelComplete
-  } = useGameData(Data.data);
+  } = useGameData(data);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">

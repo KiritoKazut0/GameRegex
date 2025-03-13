@@ -2,6 +2,7 @@ import {  Trophy } from 'lucide-react';
 
 
 export default function Header({email, score}) {
+
     return (
         <>
             <header className="relative bg-gray-800 p-6 shadow-lg">
@@ -18,7 +19,7 @@ export default function Header({email, score}) {
                             <span className="text-gray-400 text-sm">pts</span>
                         </div>
                         <div className="w-10 h-10 bg-fuchsia-600 rounded-full flex items-center justify-center">
-                            {email.charAt(0).toUpperCase()}
+                            {email.charAt(0).toUpperCase() || 'a'}
                         </div>
                     </div>
                 </div>

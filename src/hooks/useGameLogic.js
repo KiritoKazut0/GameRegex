@@ -5,6 +5,7 @@ const EMOJI_FACES = [
 ];
 
 export const useGameLogic = (level, onComplete) => {
+  
   const [inputValue, setInputValue] = useState('');
   const [feedback, setFeedback] = useState('');
   const [correctWords, setCorrectWords] = useState([]);

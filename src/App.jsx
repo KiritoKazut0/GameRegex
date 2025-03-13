@@ -1,5 +1,7 @@
 import LoginForm from "./pages/Login"
 import HomePage from "./pages/Home"
+import RegisterForm from "./pages/Register"
+
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
 
 
@@ -12,6 +14,10 @@ const myRouter = createBrowserRouter([
   {
     path: '/home',
     element: <HomePage/>
+  },
+  {
+    path: '/Register',
+    element: <RegisterForm/>
   }
 ])
 
